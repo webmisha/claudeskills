@@ -1,0 +1,38 @@
+User Story Template
+
+Title: [Short description of the feature/request]
+
+As a [role/persona]
+I want [goal or feature]
+So that [reason/benefit/value]
+
+Acceptance Criteria
+AC1: [Given/When/Then format — e.g., Given I am a logged-in user, When I click on “Download Report,” Then a report should download in PDF format.]
+AC2: [Next scenario…]
+AC3: [Edge case…]
+
+User Story Example 1
+
+Title: Reset Password via Email
+
+As a registered user
+I want to reset my password using my email address
+So that I can regain access to my account if I forget my password
+
+Acceptance Criteria:
+- I am on the login page, when I click on “Forgot Password,” then I should be asked for my registered email.
+- I provide a valid registered email, when I click “Submit,” then I should receive a reset link in my email.
+- I receive the reset link, when I click on it, then I should be redirected to a page to set a new password.
+- I set a new valid password, when I confirm, then my password should be updated, and I should be able to log in with the new one.
+
+User Story Example 2
+
+As a site member
+I want to describe myself on my own page in a semi-structured way 
+So that others can learn about me
+
+Acceptance Criteria:
+- I am on my profile page, when I open the profile edit mode, then I should see structured fields such as name, employer, and location.
+- I am editing my profile, when I enter or update values in the structured fields, then the information should be saved to my profile.
+- I am editing my profile, when I use the free text field, then I should be able to add any additional information about myself.
+- I have filled in both structured fields and the free text field, when I save my profile, then the information should be visible to other site members on my profile page.
