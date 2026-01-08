@@ -36,3 +36,24 @@ Acceptance Criteria:
 - I am editing my profile, when I enter or update values in the structured fields, then the information should be saved to my profile.
 - I am editing my profile, when I use the free text field, then I should be able to add any additional information about myself.
 - I have filled in both structured fields and the free text field, when I save my profile, then the information should be visible to other site members on my profile page.
+
+Data/Analytics User Story Example Story:
+As a business analyst
+I want to access a cleaned customer segmentation dataset 
+So that I can build dashboards without manual preprocessing
+
+Acceptance Criteria:
+- Dataset refreshed daily at 2 AM.
+- Null/duplicate values flagged and removed.
+- Only authorized users can access the dataset.
+
+Technical/Infrastructure User Story Example Story:
+
+As a developer
+I want to set up a secure API gateway
+So that external applications can connect safely to our platform.
+
+Acceptance Criteria:
+- Only authenticated requests are processed.
+- API traffic is logged and monitored.
+- Gateway handles 1000 requests/second.
