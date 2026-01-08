@@ -1,2 +1,2 @@
 # claudeskills
-Skills for Claude from Anthropic
+Skills, Resources, Templates
