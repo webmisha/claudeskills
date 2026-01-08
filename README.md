@@ -2,13 +2,6 @@
 Skills, Resources, Templates
 
 User Stories Resources:
-
-User-Stories-Applied-Mike-Cohn.pdf 
-A foundational book by Mike Cohn explaining the theory, principles, and best practices of user stories.
-
-user_story_template.txt
-A core user story template with examples and acceptance criteria for everyday product work.
-
-example-user-stories.pdf
-100 example user stories without acceptance criteria, useful for inspiration and practice.
-
+1. User-Stories-Applied-Mike-Cohn.pdf - book by Mike Cohn explaining the theory, principles, and best practices of user stories
+2. user_story_template.txt - user story template with several examples and acceptance criteria 
+3. example-user-stories.pdf - 100 more examples of user stories without acceptance criteria
