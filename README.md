@@ -1,6 +1,3 @@
-# claudeskills
-Skills, Resources, Templates
-
 ## Skills
 - [Brainstorming Skill](skills/brainstorming.skill)
 - [PRD Creator Skill](skills/prd-creator.skill)
