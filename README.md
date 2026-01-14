@@ -1,7 +1,12 @@
 # claudeskills
 Skills, Resources, Templates
 
-User Stories Resources:
-1. <a href="https://github.com/webmisha/claudeskills/blob/main/example-user-stories.pdf">User Story Template</a> - a user story template with several examples and acceptance criteria 
-2. <a href="https://github.com/webmisha/claudeskills/blob/main/example-user-stories.pdf">Example of User Stories</a> - 100 more examples of user stories without acceptance criteria
-3. <a href="https://github.com/webmisha/claudeskills/blob/main/User-Stories-Applied-Mike-Cohn.pdf">User-Stories-Applied-Mike-Cohn</a> - a book by Mike Cohn explaining the theory, principles, and best practices of user stories
+## Skills
+- [Brainstorming Skill](skills/brainstorming.skill)
+- [PRD Creator Skill](skills/prd-creator.skill)
+- [User Story Creator Skill](skills/user-story-creator.skill)
+- [User Story Reviewer](skills/user-story-reviewer.zip)
+
+## Resources
+- [Example User Stories](resources/example-user-stories.pdf)
+- [User Story Template](resources/user_story_template.txt)
