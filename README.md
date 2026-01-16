@@ -1,5 +1,6 @@
 ## Skills
 - [Brainstorming Skill](skills/brainstorming.skill)
+- [Frontend Design Skill Skill](skills/frontend-design.skill)
 - [PRD Creator Skill](skills/prd-creator.skill)
 - [User Story Creator Skill](skills/user-story-creator.skill)
 - [User Story Reviewer](skills/user-story-reviewer.zip)
