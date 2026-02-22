@@ -1,0 +1,515 @@
+---
+name: user-story-reviewer
+description: User story quality assessment and improvement tool based on Mike Cohn's "User Stories Applied" methodology. Use when reviewing, evaluating, scoring, or improving user stories. Triggers include requests to "review my user stories", "check my stories", "improve my user stories", "score my stories", "validate my backlog", or any user story quality assessment task.
+---
+
+# User Story Reviewer
+
+Review and improve user stories based on Mike Cohn's "User Stories Applied" methodology.
+
+## Review Process
+
+1. **Parse the input** - Extract individual user stories from provided content
+2. **Evaluate each story** - Apply INVEST criteria and story smell detection
+3. **Calculate scores** - Generate individual and aggregate quality scores
+4. **Provide recommendations** - Offer specific, actionable improvements
+
+## INVEST Criteria (Score 0-2 each, max 12 points)
+
+### Independent (0-2)
+- **2**: Story can be developed in any order without dependencies
+- **1**: Minor dependencies exist but can be managed
+- **0**: Story has significant dependencies on other stories
+
+**Fix**: Combine dependent stories or find different split boundaries.
+
+**Good Example:**
+- "As a job seeker, I can search for jobs by keyword"
+- "As a job seeker, I can filter jobs by location"
+
+These can be built in any order.
+
+**Bad Example:**
+- "As a user, I can log in" (Story A)
+- "As a user, I can reset my password" (Story B - depends on A)
+
+**Solutions for Dependencies:**
+1. Combine dependent stories into one
+2. Re-slice along different boundaries
+3. Accept temporary dependency but plan sprints accordingly
+
+### Negotiable (0-2)
+- **2**: Story is a conversation placeholder, not a contract
+- **1**: Some unnecessary detail present
+- **0**: Too much detail, reads like a specification
+
+**Fix**: Remove implementation details, keep only reminders for conversation.
+
+**Good Example:**
+```
+As a recruiter, I can post a job listing so that candidates can apply.
+```
+Details negotiated during sprint planning.
+
+**Bad Example:**
+```
+As a recruiter, I can post a job by entering a 50-character title,
+500-character description, selecting from 12 predefined categories,
+uploading a company logo (max 200KB, .png or .jpg format)...
+```
+
+**Rule:** If it reads like a specification, reduce it.
+
+### Valuable (0-2)
+- **2**: Clear value to user or customer; written in business language
+- **1**: Value present but obscured by technical language
+- **0**: Only valuable to developers or value unclear
+
+**Fix**: Rewrite from user perspective: what problem does this solve?
+
+**Good Example:**
+```
+As a job seeker, I can save jobs to review later so I don't lose interesting opportunities.
+```
+
+**Bad Example:**
+```
+As a developer, I can refactor the database layer.
+```
+(Only valuable to team, not customers)
+
+**Fix:** Reframe as: "As a job seeker, I experience faster search results" (if performance is the underlying value).
+
+### Estimatable (0-2)
+- **2**: Team can estimate with reasonable confidence
+- **1**: Needs some clarification before estimating
+- **0**: Cannot estimate (too vague, too large, or unknown domain/technology)
+
+**Fix**: Split into spike + implementation, or gather more domain knowledge.
+
+**Three reasons teams can't estimate:**
+1. **Lack of domain knowledge** → Talk to product owner
+2. **Lack of technical knowledge** → Create a spike
+3. **Story is too big** → Split the story
+
+**Spike Example:**
+```
+Spike: Research payment gateway options (timeboxed: 2 days)
+Follow-up: As a buyer, I can pay with credit card
+```
+
+### Small (0-2)
+- **2**: Can be completed in 1-5 days (fits in a single sprint)
+- **1**: Borderline size, may need splitting
+- **0**: Epic-sized story (weeks of work)
+
+**Fix**: Split using vertical slicing (full cake slices through all layers).
+
+**Splitting Strategies:**
+
+1. **By Workflow Steps**
+   - Epic: "User can manage their account"
+   - Split: Create account, Update profile, Delete account
+
+2. **By Business Rules**
+   - Epic: "Calculate shipping"
+   - Split: Domestic shipping, International shipping, Express shipping
+
+3. **By Data Variations**
+   - Epic: "Search jobs"
+   - Split: By keyword, By location, By salary range
+
+4. **By Interface Variation**
+   - Epic: "User can apply for job"
+   - Split: Apply via form, Apply with LinkedIn, Apply with resume upload
+
+5. **By CRUD Operations**
+   - Create, Read, Update, Delete as separate stories
+
+### Testable (0-2)
+- **2**: Clear acceptance criteria can be written
+- **1**: Tests possible but criteria need clarification
+- **0**: Cannot be tested (subjective, vague, or impossible to verify)
+
+**Fix**: Add measurable acceptance criteria; replace "easy" with metrics.
+
+**Good Example:**
+```
+As a job seeker, I can search by salary range.
+
+Acceptance Tests:
+- Search for $50k-$75k returns only jobs in that range
+- Jobs with "DOE" (depends on experience) excluded from range searches
+- Invalid ranges show error message
+```
+
+**Bad Example:**
+```
+As a user, I find the interface easy to use.
+```
+"Easy" is not testable.
+
+**Fix:** Define measurable criteria:
+```
+As a new user, I can complete job search in under 30 seconds without help.
+```
+
+### Sizing Reference
+
+| Size | Description | Action |
+|------|-------------|--------|
+| XS (< 0.5 day) | Too small | Combine with related work |
+| S (0.5-1 day) | Ideal minimum | Ready |
+| M (2-3 days) | Ideal | Ready |
+| L (4-5 days) | Acceptable | Ready, monitor closely |
+| XL (> 5 days) | Too large | Split before sprint |
+| Epic (weeks) | Way too large | Decompose into multiple stories |
+
+## Story Smell Detection
+
+Deduct 1-2 points for each smell detected:
+
+| Smell | Indicators | Fix |
+|-------|------------|-----|
+| **UI Too Soon** | Screen names, buttons, fields mentioned in early stories | Remove UI assumptions; describe goal, not interface |
+| **Too Many Details** | Story text exceeds 2-3 sentences; reads like requirements doc | Reduce to conversation placeholder |
+| **Interdependent** | Stories must be done in specific order | Combine or re-split along different boundaries |
+| **Too Small** | Story is less than half a day of work | Combine with related micro-stories |
+| **Not Closed** | Story describes ongoing activity with no completion point | Rewrite with achievement-based completion |
+| **Missing Role** | No user/actor specified | Add "As a [role]" prefix |
+| **Passive Voice** | "A resume can be posted" vs "A user can post a resume" | Rewrite in active voice |
+| **Technical Jargon** | Connection pools, APIs, databases in customer-facing stories | Rewrite in business value terms |
+
+### Story Smells Quick Reference
+
+| Smell | Example | Fix |
+|-------|---------|-----|
+| UI Too Soon | "Click the blue Submit button" | "Submit application" |
+| Interdependent | "After login, user can..." | Remove "after login" |
+| Goldplating | 10 paragraphs of detail | 2-3 sentences max |
+| Too Small | "Change button color" | Combine with related UI work |
+| Not Closed | "User receives notifications" | "User can enable notifications" |
+| Epic in Disguise | "User can manage account" | Split into CRUD operations |
+
+## Story Format Evaluation
+
+**Preferred Format** (Connextra template):
+```
+As a [user role], I want [function/goal] so that [business value/reason]
+```
+
+**Acceptable Formats**:
+- "[Role] can [action]" - acceptable if value is obvious
+- "[Action] for [role]" - requires clear context
+
+**Poor Formats** (needs improvement):
+- "The system shall..." - IEEE 830 style, not a story
+- Technical descriptions without user context
+- Feature lists without user perspective
+
+## User Story Templates
+
+### Standard User Story
+
+**Title**: [Short description of the feature/request]
+
+As a [role/persona]
+I can [goal or feature]
+So that [reason/benefit/value]
+
+**Acceptance Criteria**:
+- AC1: [Given/When/Then format — e.g., Given I am a logged-in user, When I click on "Download Report," Then a report should download in PDF format.]
+- AC2: [Next scenario]
+- AC3: [Edge case]
+
+**Notes**: [Optional — questions to discuss, related stories]
+
+### Job Story Template
+
+**Title**: [Short description]
+
+When [situation/trigger]
+I want [goal]
+So that [benefit]
+
+**Acceptance Criteria**:
+- AC1: [Criterion]
+- AC2: [Criterion]
+
+### Template Examples
+
+#### Example 1: Reset Password via Email
+
+**Title**: Reset Password via Email
+
+As a registered user
+I want to reset my password using my email address
+So that I can regain access to my account if I forget my password
+
+**Acceptance Criteria**:
+- Given I am on the login page, when I click on "Forgot Password," then I should be asked for my registered email.
+- Given I provide a valid registered email, when I click "Submit," then I should receive a reset link in my email.
+- Given I receive the reset link, when I click on it, then I should be redirected to a page to set a new password.
+- Given I set a new valid password, when I confirm, then my password should be updated, and I should be able to log in with the new one.
+
+#### Example 2: Profile Description
+
+As a site member
+I want to describe myself on my own page in a semi-structured way
+So that others can learn about me
+
+**Acceptance Criteria**:
+- Given I am on my profile page, when I open the profile edit mode, then I should see structured fields such as name, employer, and location.
+- Given I am editing my profile, when I enter or update values in the structured fields, then the information should be saved to my profile.
+- Given I am editing my profile, when I use the free text field, then I should be able to add any additional information about myself.
+- Given I have filled in both structured fields and the free text field, when I save my profile, then the information should be visible to other site members on my profile page.
+
+#### Example 3: Data/Analytics Story
+
+**Title**: Customer Segmentation Dataset
+
+As a business analyst
+I want to access a cleaned customer segmentation dataset
+So that I can build dashboards without manual preprocessing
+
+**Acceptance Criteria**:
+- Dataset refreshed daily at 2 AM.
+- Null/duplicate values flagged and removed.
+- Only authorized users can access the dataset.
+
+#### Example 4: Technical/Infrastructure Story
+
+**Title**: Secure API Gateway
+
+As a developer
+I want to set up a secure API gateway
+So that external applications can connect safely to our platform.
+
+**Acceptance Criteria**:
+- Only authenticated requests are processed.
+- API traffic is logged and monitored.
+- Gateway handles 1000 requests/second.
+
+## Acceptance Test Patterns
+
+**Format:**
+```
+Given [context/precondition]
+When [action taken]
+Then [expected outcome]
+```
+
+**Example:**
+```
+Story: As a job seeker, I can filter by remote work.
+
+Given I am on the job search page
+When I check "Remote only" filter
+Then only jobs marked as remote are displayed
+And the job count updates to show filtered total
+```
+
+## Scoring Guide
+
+| Total Score | Rating | Recommendation |
+|-------------|--------|----------------|
+| 10-12 | Excellent | Ready for sprint planning |
+| 7-9 | Good | Minor improvements suggested |
+| 4-6 | Needs Work | Requires revision before sprint |
+| 0-3 | Poor | Rewrite or split required |
+
+## Output Format
+
+For each story reviewed, provide:
+
+```
+### Story: "[Story text]"
+
+**INVEST Score: X/12**
+- Independent: X/2 - [brief assessment]
+- Negotiable: X/2 - [brief assessment]
+- Valuable: X/2 - [brief assessment]
+- Estimatable: X/2 - [brief assessment]
+- Small: X/2 - [brief assessment]
+- Testable: X/2 - [brief assessment]
+
+**Smells Detected**: [list or "None"]
+
+**Rating**: [Excellent/Good/Needs Work/Poor]
+
+**Suggested Improvement**:
+[Rewritten story or specific changes]
+
+**Acceptance Test Ideas**:
+- [Test case 1]
+- [Test case 2]
+```
+
+## Aggregate Report
+
+After reviewing all stories, provide:
+- **Total stories reviewed**
+- **Average INVEST score**
+- **Distribution by rating** (Excellent/Good/Needs Work/Poor)
+- **Most common issues** (top 3 patterns)
+- **Priority improvements** (which stories to fix first)
+
+## Special Cases
+
+### Constraints (Non-functional requirements)
+Stories like "System must support 50 concurrent users" are **constraints**, not stories.
+- Mark as "Constraint Card"
+- Ensure testable criteria exist
+- Don't include in INVEST scoring for functional stories
+
+### Epics
+Large stories covering weeks of work are **epics** that need splitting.
+- Identify as epic
+- Suggest splitting approaches (by user workflow, by data type, by CRUD operations)
+
+### Spikes
+Investigation tasks should be written as:
+- "Research [topic] to determine [decision]"
+- Always timebox spikes
+- Pair with follow-up implementation story
+
+## Example User Stories with Critiques
+
+Sample user stories from three products by Mike Cohn, showing what works and what doesn't.
+
+> **Source**: Based on "Example User Stories" by Mike Cohn (February 2024). Stories were written for real products between 2003–2004.
+
+### Important Context
+
+- Stories are written to facilitate conversations — critiquing them without that context can be misleading.
+- Don't strive for perfect stories. Halfway decent stories that lead to great conversations beat "perfect" stories.
+
+---
+
+### Scrum Alliance Website
+
+Stories written for an early version of the Scrum Alliance website (May 2003 – early 2004).
+
+**1. Profile Description**
+```
+As a site member, I want to describe myself on my own page in a semi-structured way
+so that others can learn about me.
+```
+**Critique**: Greatly improved by using acceptance criteria:
+```
+As a site member, I can describe myself on my own page so that others can learn about me.
+
+Acceptance Criteria:
+• Specific fields for name, employer, location
+• Free text field for additional information
+• Optional: Support Markdown in free text
+```
+Key insight: Changed "I want" → "I can" (done only when user truly _can_ do the thing).
+
+**6. Certification Display (Job Story Example)**
+```
+As a Practitioner or Trainer, when I write an article for the site I want a small graphic
+shown with the article showing my CSP or CST status.
+```
+**Critique**: Better as a job story to avoid dual-role awkwardness:
+```
+When I post an article to the site, I want my certifications shown near my name
+so that others know I am qualified.
+```
+
+**34. Advanced Search (Too Much UI)**
+```
+As a site visitor, I have an advanced search option that lets me fill in a form of
+search criteria (country, state, trainer name, date range...)
+```
+**Critique**: Implies basic/advanced search UI. Better as:
+```
+When searching for a course, I can optionally enter information to narrow results.
+
+Acceptance criteria:
+• Country and/or state
+• Trainer name
+• Date range
+• Key words in description
+```
+
+**35. Trainer Profile Link (UI Detail)**
+```
+As a site visitor, when I'm viewing a course I can click on the trainer's name
+and be taken to the trainer's profile.
+```
+**Critique**: Don't say "click on name" — that's UI speculation. Better:
+```
+When viewing a course, I have the option to learn more about the trainer
+so I can make an informed decision about which course to take.
+```
+
+**45. Email Notification (UI in Story)**
+```
+As a site admin, I am emailed whenever a job is submitted so that I am aware of it.
+```
+**Critique**: Specifies delivery method. Better:
+```
+As a site admin, when a new job is posted, I want to be notified
+so that I'm aware of the new posting and can approve or reject it.
+```
+
+**50. Expiration Reminder (Hardcoded Values)**
+```
+As someone who has posted an ad that is about to expire, seven days before it expires
+I want to be emailed a reminder so that I can go extend the ad.
+```
+**Critique**: Don't hardcode "7 days". Use "n days" + separate admin configuration story.
+
+---
+
+### Video Training Website
+
+**7. Vague Verb: "Manage"**
+```
+As a participant, I can manage my account so that it reflects my current information.
+```
+**Critique**: "Manage" is a slippery word hiding complexity. Split or add acceptance criteria.
+
+**20. Missing Complementary Story**
+```
+As a trainer, I can create discount codes I can give to people
+so that I can customize pricing.
+```
+**Critique**: Missing corresponding story for buyers to _enter_ discount codes! Always check for complementary stories.
+
+---
+
+### Planning Poker Website
+
+**39. Estimating Sequences**
+```
+As a moderator, I want to select whether to have the team estimate with
+{0, 1/2, 1, 2, 3, 5, 8...} or {0, 1, 2, 4, 8, 16, 32...}
+```
+**Critique**: Better as job story with acceptance criteria:
+```
+When creating a new game, I can select the estimating sequence.
+
+Acceptance criteria:
+• 0, 1, 2, 3, 5, 8, 13
+• 0, 1, 2, 4, 8, 16
+```
+
+**41–48. Non-Functional Requirements**
+Stories like "developer wants XHTML compliance", "Unicode support", "browser support", "fast response" — these work better as plain requirement statements, not user stories.
+
+---
+
+### Key Takeaways from Examples
+
+| Pattern | Example | Recommendation |
+|---------|---------|----------------|
+| **Move details to AC** | Story with notes/parentheticals | Keep story focused, detail in acceptance criteria |
+| **Use job stories** | Dual roles, context matters | "When [situation], I want..." |
+| **Avoid UI details** | "Click on name", "fill in form" | Describe goal, not interface |
+| **Watch vague verbs** | "manage", "maintain", "handle" | Split or clarify with AC |
+| **Check complementary** | Create without Read | Both sides of every interaction |
+| **Weak so-that** | "so the site has content" | Omit rather than use weak clause |
+| **Non-functionals** | "As a developer, I want..." | Write as requirement statements |
+| **Hardcoded values** | "7 days before expiry" | Use "n days" + config story |
