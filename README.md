@@ -11,6 +11,7 @@ Custom skills for Claude and other AI coding/product workflows. The repository i
 | `user-story-creator` | Write user stories, acceptance criteria, job stories, analytics stories, and technical stories using agile best practices. |
 | `user-story-reviewer` | Review existing stories against INVEST, detect common story smells, score quality, and propose improvements. |
 | `frontend-design` | Build distinctive, production-grade frontend UI with a strong visual direction and polished implementation details. |
+| `humanizer` | Remove common signs of AI-generated writing and rewrite text so it reads more naturally. |
 
 All skills live in [`skills/`](skills/).
 
@@ -22,6 +23,8 @@ claudeskills/
 └── skills/
     ├── brainstorming.skill
     ├── frontend-design.skill
+    ├── humanizer.LICENSE
+    ├── humanizer.skill
     ├── prd-creator.skill
     ├── user-story-creator.skill
     └── user-story-reviewer.skill
@@ -62,6 +65,10 @@ Review these user stories against INVEST and suggest improvements.
 Use frontend-design to build a polished dashboard mockup.
 ```
 
+```text
+Humanize this announcement and keep the original meaning.
+```
+
 The skills are designed to be conversational. Several of them intentionally start with discovery questions before producing the final output, because the quality of the result depends on understanding goals, users, constraints, and success criteria.
 
 ## Skill Guide
@@ -85,6 +92,10 @@ Use when improving existing backlog items. It scores stories against INVEST, det
 ### Frontend Design
 
 Use when building web interfaces, pages, dashboards, posters, or components. It pushes for a clear aesthetic point of view, stronger typography, more intentional color, polished motion, and frontend work that feels designed rather than generic.
+
+### Humanizer
+
+Use when editing text that sounds AI-generated. It detects patterns such as inflated importance, promotional language, vague attributions, overused AI vocabulary, em dash overuse, formulaic conclusions, filler phrases, and other common tells. It then rewrites the text while preserving meaning and matching the intended voice.
 
 ## Contributing
 
@@ -113,3 +124,5 @@ description: Short description of when this skill should be used.
 ## License
 
 No repository-level license is currently included. Add a `LICENSE` file if you want to define reuse terms for the full collection.
+
+The `humanizer` skill is based on [`blader/humanizer`](https://github.com/blader/humanizer) and is distributed under the MIT license included at [`skills/humanizer.LICENSE`](skills/humanizer.LICENSE).
